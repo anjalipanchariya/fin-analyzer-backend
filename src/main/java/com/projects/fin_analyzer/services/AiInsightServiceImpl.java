@@ -1,11 +1,8 @@
 package com.projects.fin_analyzer.services;
 
 import com.projects.fin_analyzer.dto.DashboardResponse;
-import com.projects.fin_analyzer.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +28,7 @@ public class AiInsightServiceImpl implements AiInsightService{
         Generate:
         - 4 short personalized insights
         - 1 practical recommendation
+        - Do NOT use ** or # symbols.
 
         Use bullet points.
         Keep the response under 100 words.

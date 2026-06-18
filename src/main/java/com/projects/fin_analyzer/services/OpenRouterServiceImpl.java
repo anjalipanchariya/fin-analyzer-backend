@@ -19,7 +19,6 @@ public class OpenRouterServiceImpl implements OpenRouterService {
             .build();
 
     public String generateInsights(String prompt){
-        System.out.println(apiKey.substring(0,10));
         String url = "/api/v1/chat/completions";
 
         Map<String, Object> body = Map.of(
@@ -70,6 +69,5 @@ public class OpenRouterServiceImpl implements OpenRouterService {
                 (Map) choice.get("message");
 
         return (String) message.get("content");
-
     }
 }

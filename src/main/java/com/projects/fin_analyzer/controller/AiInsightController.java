@@ -17,7 +17,7 @@ public class AiInsightController {
 
     @GetMapping("/ai-insights")
     public AiInsightsResponse getInsights(){
-        System.out.println("AI endpoint hit");
+        System.out.println("+++++++++++AI endpoint hit+++++++++++++++++");
         AiInsightsResponse aiInsightsResponse = new AiInsightsResponse();
         aiInsightsResponse.setInsights(aiInsightService.generateInsights());
         return aiInsightsResponse;
