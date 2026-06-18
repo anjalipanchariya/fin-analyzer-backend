@@ -13,15 +13,12 @@ import java.util.Currency;
 public class DashboardController {
 
     private final DashboardService dashboardService;
-    private final CurrentUserService currentUserService;
-    public DashboardController(DashboardService dashboardService, CurrentUserService currentUserService) {
+    public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
-        this.currentUserService = currentUserService;
     }
 
     @GetMapping
     public DashboardResponse getDashboard(){
-        User user = currentUserService.getCurrentUser();
-        return dashboardService.getDashboard(user.getId());
+        return dashboardService.getDashboard();
     }
 }

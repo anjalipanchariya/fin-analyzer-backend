@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface MonthlyTrendService {
-    List<MonthlyTrendResponse> getMonthlyTrend(Long userId);
+    List<MonthlyTrendResponse> getMonthlyTrend();
 }

@@ -23,7 +23,6 @@ public class TransactionMapper {
         transactionResponse.setCategory(transaction.getCategory());
         transactionResponse.setTransactionType(transaction.getType());
         transactionResponse.setDescription(transaction.getDescription());
-        transactionResponse.setUserId(transaction.getUser().getId());
         transactionResponse.setTransactionId(transaction.getId());
         transactionResponse.setTransactionDate(transaction.getTransactionDate());
         return transactionResponse;

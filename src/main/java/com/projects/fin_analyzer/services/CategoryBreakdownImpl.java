@@ -2,6 +2,7 @@ package com.projects.fin_analyzer.services;
 
 import com.projects.fin_analyzer.dto.CategoryBreakdownResponse;
 import com.projects.fin_analyzer.entity.Transaction;
+import com.projects.fin_analyzer.entity.User;
 import com.projects.fin_analyzer.enums.Category;
 import com.projects.fin_analyzer.enums.TransactionType;
 import com.projects.fin_analyzer.repository.TransactionRepository;
@@ -19,15 +20,18 @@ public class CategoryBreakdownImpl implements CategoryBreakdownService {
 
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
-
-    public CategoryBreakdownImpl(UserRepository userRepository, TransactionRepository transactionRepository) {
+    private final CurrentUserService currentUserService;
+    public CategoryBreakdownImpl(UserRepository userRepository, TransactionRepository transactionRepository, CurrentUserService currentUserService) {
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
+        this.currentUserService = currentUserService;
     }
 
     @Override
-    public List<CategoryBreakdownResponse> getCategoryBreakdown(Long userId) {
+    public List<CategoryBreakdownResponse> getCategoryBreakdown() {
 
+        User user = currentUserService.getCurrentUser();
+        Long userId = user.getId();
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

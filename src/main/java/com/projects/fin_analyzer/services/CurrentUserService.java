@@ -16,10 +16,23 @@ public class CurrentUserService {
         this.userRepository = userRepository;
     }
 
-    public User getCurrentUser(){
-        @Nullable Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public User getCurrentUser() {
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        if (authentication == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+
         String email = authentication.getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return user;
+
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(
+                        () -> new RuntimeException("User not found")
+                );
     }
 }

@@ -13,6 +13,5 @@ public class TransactionResponse {
     private String description;
     private TransactionType transactionType;
     private Category category;
-    private Long userId;
     private LocalDate transactionDate;
 }

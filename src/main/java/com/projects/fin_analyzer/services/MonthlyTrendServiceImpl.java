@@ -2,6 +2,7 @@ package com.projects.fin_analyzer.services;
 
 import com.projects.fin_analyzer.dto.MonthlyTrendResponse;
 import com.projects.fin_analyzer.entity.Transaction;
+import com.projects.fin_analyzer.entity.User;
 import com.projects.fin_analyzer.enums.TransactionType;
 import com.projects.fin_analyzer.repository.TransactionRepository;
 import com.projects.fin_analyzer.repository.UserRepository;
@@ -17,14 +18,19 @@ public class MonthlyTrendServiceImpl implements MonthlyTrendService{
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
 
-    public MonthlyTrendServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public MonthlyTrendServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository, CurrentUserService currentUserService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
     @Override
-    public List<MonthlyTrendResponse> getMonthlyTrend(Long userId) {
+    public List<MonthlyTrendResponse> getMonthlyTrend() {
+
+        User user = currentUserService.getCurrentUser();
+        Long userId = user.getId();
         userRepository.findById(userId).
                 orElseThrow(()->new RuntimeException("User not found"));
 

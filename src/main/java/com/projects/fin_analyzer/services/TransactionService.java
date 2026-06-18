@@ -6,6 +6,7 @@ import com.projects.fin_analyzer.entity.Transaction;
 import com.projects.fin_analyzer.entity.User;
 import com.projects.fin_analyzer.mapper.TransactionMapper;
 import com.projects.fin_analyzer.repository.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,30 +16,27 @@ import java.util.List;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
     private final TransactionMapper transactionMapper;
-    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, TransactionMapper transactionMapper) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, CurrentUserService currentUserService, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;
-        this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
         this.transactionMapper = transactionMapper;
     }
 
     public TransactionResponse saveTransaction(TransactionRequest transactionRequest){
-        if(userRepository.findById(transactionRequest.getUserId()).isEmpty()){
-            throw new RuntimeException("The user not present");
-        }
+
         Transaction transaction = transactionMapper.toTransactionEntity(transactionRequest);
-        Long userId = transactionRequest.getUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = currentUserService.getCurrentUser();
         transaction.setUser(user);
         transaction.setTransactionDate(LocalDate.now());
         Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.toTransactionResponse(savedTransaction);
     }
 
-    public List<TransactionResponse> getTransactionList(Long userId){
-        List<Transaction> transactionList = transactionRepository.findByUserId(userId);
+    public List<TransactionResponse> getTransactionList(){
+        User user = currentUserService.getCurrentUser();
+        List<Transaction> transactionList = transactionRepository.findByUserId(user.getId());
         return transactionList.stream()
                 .map(transactionMapper::toTransactionResponse)
                 .toList();

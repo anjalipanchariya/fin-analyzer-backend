@@ -13,15 +13,12 @@ import java.util.List;
 public class MonthlyTrendController {
 
     private final MonthlyTrendService monthlyTrendService;
-    private final CurrentUserService currentUserService;
-    public MonthlyTrendController(MonthlyTrendService monthlyTrendService, CurrentUserService currentUserService) {
+    public MonthlyTrendController(MonthlyTrendService monthlyTrendService) {
         this.monthlyTrendService = monthlyTrendService;
-        this.currentUserService = currentUserService;
     }
 
     @GetMapping
     public List<MonthlyTrendResponse> getMonthlyTrend(){
-        User user = currentUserService.getCurrentUser();
-        return monthlyTrendService.getMonthlyTrend(user.getId());
+        return monthlyTrendService.getMonthlyTrend();
     }
 }

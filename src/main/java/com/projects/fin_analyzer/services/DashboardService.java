@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface DashboardService {
-    DashboardResponse getDashboard(Long userId);
+    DashboardResponse getDashboard();
 }

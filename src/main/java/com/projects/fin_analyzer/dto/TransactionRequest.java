@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 
 @Data
 public class TransactionRequest {
-    @NotNull
-    private Long userId;
 
     @NotNull
     private BigDecimal amount;

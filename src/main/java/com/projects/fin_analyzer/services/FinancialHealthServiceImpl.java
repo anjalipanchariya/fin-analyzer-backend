@@ -2,6 +2,7 @@ package com.projects.fin_analyzer.services;
 
 import com.projects.fin_analyzer.dto.FinancialHealthResponse;
 import com.projects.fin_analyzer.entity.Transaction;
+import com.projects.fin_analyzer.entity.User;
 import com.projects.fin_analyzer.enums.ScoreStatus;
 import com.projects.fin_analyzer.enums.TransactionType;
 import com.projects.fin_analyzer.repository.TransactionRepository;
@@ -17,14 +18,19 @@ import java.util.List;
 public class FinancialHealthServiceImpl implements FinancialHealthService{
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
 
-    public FinancialHealthServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository) {
+    public FinancialHealthServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository, CurrentUserService currentUserService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
     @Override
-    public FinancialHealthResponse getFinancialHealth(Long userId) {
+    public FinancialHealthResponse getFinancialHealth() {
+        User user = currentUserService.getCurrentUser();
+        Long userId = user.getId();
+
         FinancialHealthResponse financialHealthResponse = new FinancialHealthResponse();
         userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("User not found"));

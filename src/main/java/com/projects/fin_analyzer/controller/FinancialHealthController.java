@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/financial-health")
 public class FinancialHealthController {
     private final FinancialHealthService financialHealthService;
-    private final CurrentUserService currentUserService;
-    public FinancialHealthController(FinancialHealthService financialHealthService, CurrentUserService currentUserService) {
+    public FinancialHealthController(FinancialHealthService financialHealthService) {
         this.financialHealthService = financialHealthService;
-        this.currentUserService = currentUserService;
     }
 
     @GetMapping
     public FinancialHealthResponse getFinancialHealth(){
-        User user = currentUserService.getCurrentUser();
-        return financialHealthService.getFinancialHealth(user.getId());
+        return financialHealthService.getFinancialHealth();
     }
 }

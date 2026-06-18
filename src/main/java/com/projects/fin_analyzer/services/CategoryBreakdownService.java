@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface CategoryBreakdownService {
-    List<CategoryBreakdownResponse> getCategoryBreakdown(Long userId);
+    List<CategoryBreakdownResponse> getCategoryBreakdown();
 }

@@ -2,8 +2,6 @@ package com.projects.fin_analyzer.controller;
 
 import com.projects.fin_analyzer.dto.TransactionRequest;
 import com.projects.fin_analyzer.dto.TransactionResponse;
-import com.projects.fin_analyzer.entity.User;
-import com.projects.fin_analyzer.services.CurrentUserService;
 import com.projects.fin_analyzer.services.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +14,9 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
-    private final CurrentUserService currentUserService;
 
-    public TransactionController(TransactionService transactionService, CurrentUserService currentUserService) {
+    public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
-        this.currentUserService = currentUserService;
     }
 
     @PostMapping("/saveTransaction")
@@ -30,8 +26,7 @@ public class TransactionController {
 
     @GetMapping("/list")
     public List<TransactionResponse> getTransactionList(){
-        User user = currentUserService.getCurrentUser();
-        return transactionService.getTransactionList(user.getId());
+        return transactionService.getTransactionList();
     }
 
     @PutMapping("/{transactionId}")

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface FinancialHealthService {
-    FinancialHealthResponse getFinancialHealth(Long userId);
+    FinancialHealthResponse getFinancialHealth();
 }

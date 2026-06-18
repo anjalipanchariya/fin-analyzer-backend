@@ -1,25 +1,47 @@
 package com.projects.fin_analyzer.services;
 
+import com.projects.fin_analyzer.dto.DashboardResponse;
+import com.projects.fin_analyzer.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
 public class AiInsightServiceImpl implements AiInsightService{
 
-    private final GeminiService geminiService;
+    private final OpenRouterService openRouterService;
+   private final DashboardService dashboardService;
 
     @Override
     public String generateInsights() {
+        DashboardResponse dashboardResponse = dashboardService.getDashboard();
+
         String prompt = """
-            You are a personal finance advisor.
+        You are a personal finance advisor.
 
-            Give 4 short financial insights for a user.
+        User Summary:
 
-            Keep the response concise.
-            Use bullet points.
-            """;
-        return geminiService.generateInsights(prompt);
-//        return "Gemini temporarily disabled";
+        Total Income: ₹%s
+        Total Expense: ₹%s
+        Savings: ₹%s
+        Top Expense Category: %s
+
+        Generate:
+        - 4 short personalized insights
+        - 1 practical recommendation
+
+        Use bullet points.
+        Keep the response under 100 words.
+        """
+                .formatted(
+                        dashboardResponse.getTotalIncome(),
+                        dashboardResponse.getTotalExpense(),
+                        dashboardResponse.getSavings(),
+                        dashboardResponse.getTopExpenseCategory()
+                );
+
+        return openRouterService.generateInsights(prompt);
     }
 }

@@ -2,6 +2,7 @@ package com.projects.fin_analyzer.services;
 
 import com.projects.fin_analyzer.dto.DashboardResponse;
 import com.projects.fin_analyzer.entity.Transaction;
+import com.projects.fin_analyzer.entity.User;
 import com.projects.fin_analyzer.enums.Category;
 import com.projects.fin_analyzer.enums.TransactionType;
 import com.projects.fin_analyzer.repository.TransactionRepository;
@@ -19,13 +20,18 @@ public class DashboardServiceImpl implements DashboardService{
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
-    public DashboardServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository) {
+    private final CurrentUserService currentUserService;
+    public DashboardServiceImpl(TransactionRepository transactionRepository, UserRepository userRepository, CurrentUserService currentUserService) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
     @Override
-    public DashboardResponse getDashboard(Long userId) {
+    public DashboardResponse getDashboard() {
+        User user = currentUserService.getCurrentUser();
+        Long userId = user.getId();
+
         DashboardResponse dashboardResponse =
                 new DashboardResponse();
 

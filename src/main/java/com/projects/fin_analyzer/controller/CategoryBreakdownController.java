@@ -18,15 +18,12 @@ import java.util.List;
 public class CategoryBreakdownController {
 
     private final CategoryBreakdownService categoryBreakdownService;
-    private final CurrentUserService currentUserService;
-    public CategoryBreakdownController(CategoryBreakdownService categoryBreakdownService, UserRepository userRepository, CurrentUserService currentUserService) {
+    public CategoryBreakdownController(CategoryBreakdownService categoryBreakdownService, UserRepository userRepository) {
         this.categoryBreakdownService = categoryBreakdownService;
-        this.currentUserService = currentUserService;
     }
 
     @GetMapping
     public List<CategoryBreakdownResponse> getCategoryBreakdown(){
-        User user = currentUserService.getCurrentUser();
-        return categoryBreakdownService.getCategoryBreakdown(user.getId());
+        return categoryBreakdownService.getCategoryBreakdown();
     }
 }
